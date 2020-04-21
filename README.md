@@ -72,12 +72,17 @@ Create a CoreDNS container to provide DNS on your baremetal network.  The follow
 - `INGRESS_VIP`
 - `PROJECT_DIR`
 
+Create and start the CoreDNS container:
+
 `./dns/start.sh`
+
+Stop and remove the CoreDNS container:
+
 `./dns/stop.sh`
 
 ### DHCP
 
-Create a dnsmasq container to provide DHCP on your baremetal network.  The following variables are required to be set in `common.sh`:
+Create a Dnsmasq container to provide DHCP on your baremetal network.  The following variables are required to be set in `common.sh`:
 
 - `BM_GW_IP`
 - `BM_INTF`
@@ -88,7 +93,12 @@ Create a dnsmasq container to provide DHCP on your baremetal network.  The follo
 - `PROJECT_DIR`
 - `WORKER_BM_MAC_PREFIX`
 
+Create and start the Dnsmasq container:
+
 `./dhcp/start.sh`
+
+Stop and remove the Dnsmasq container:
+
 `./dhcp/stop.sh`
 
 ### VMs
@@ -111,7 +121,12 @@ Create a certain number of VMs for use with an OCP deployment.  The following va
 - `WORKER_PROV_MAC_PREFIX`
 - `WORKER_VBMC_PORT_PREFIX`
 
+Create the VMs and their vBMCs:
+
 `./vms/prov-vms.sh`
+
+Destroy the VMs and their vBMCs:
+
 `./vms/clean-vms.sh`
 
 ## Troubleshooting
@@ -121,3 +136,45 @@ Create a certain number of VMs for use with an OCP deployment.  The following va
    `Error: error from slirp4netns while setting up port redirection: map[desc:bad request: add_hostfwd: slirp_add_hostfwd failed]`
 
    ...try stopping/removing all containers and killing all remaining `slirp4nets` processes, and then try to start the container again.  Sometimes `podman` fails to clean up the `slirp4netns` forwarding processes when it stops/removes the DNS container. 
+
+2. Sometimes the Ironic Python Agent used by the underlying [Metal3](https://github.com/metal3-io) components (which are themselves part of the IPI installation process) get stuck while cleaning the VMs' disks.  Using a `vncviewer` such as TigerVNC, you can view the console of the VM and see if the agent's heartbeart is looping continuously (for more than 10 minutes or so).  If so, a simple option is to just try the deployment again, but you of course run the chance of hitting a cleaning issue again.  A better option is to use the Openstack CLI tool to talk with Ironic and attempt cleaning the problematic nodes manually.  The tool can be installed like so:
+   
+   ```
+   sudo pip3 install python-openstackclient
+   sudo pip3 install python-ironicclient
+   sudo pip3 install python-ironic-inspector-client
+   mkdir -p ~/.config/openstack/
+   tee "~/.config/openstack/clouds.yaml" > /dev/null << EOF
+   clouds:
+     metal3-bootstrap:
+       auth_type: none
+       baremetal_endpoint_override: http://172.22.0.2:6385  
+       baremetal_introspection_endpoint_override: http://172.22.0.2:5050
+     metal3:                                                            
+       auth_type: none                                                  
+       baremetal_endpoint_override: http://172.22.0.3:6385              
+       baremetal_introspection_endpoint_override: http://172.22.0.3:5050
+   EOF
+   ```
+
+   If, if it's a master node that is stuck:
+
+   `export OS_CLOUD=metal3-bootstrap`
+
+   Else, if it's a worker node:
+
+   `export OS_CLOUD=metal3`
+
+   You can then see the nodes like so:
+
+   `openstack baremetal node list`
+
+   Find the node(s) stuck in the `clean wait` state.  Then do the following to abort the current cleaning:
+
+   ```
+   openstack baremetal node abort <node UUID>
+   openstack baremetal node undeploy <node UUID>
+   openstack baremetal node manage <node UUID>
+   ```
+
+   Now the node should be in a state where you can execute manual cleaning, as described [here](https://docs.openstack.org/ironic/queens/admin/cleaning.html#starting-manual-cleaning-via-openstack-baremetal-cli).
