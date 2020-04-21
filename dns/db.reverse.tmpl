@@ -1,0 +1,12 @@
+$ORIGIN 1.0.10.in-addr.arpa.
+$TTL 300
+@  IN  SOA  dns1.${CLUSTER_DOMAIN}.  hostmaster.${CLUSTER_DOMAIN}. (
+       2001062501  ; serial
+       21600       ; refresh after 6 hours
+       3600        ; retry after 1 hour
+       604800      ; expire after 1 week
+       86400 )     ; minimum TTL of 1 day
+;
+${BM_GW_OCTET} IN  PTR     provisioner.${CLUSTER_NAME}.${CLUSTER_DOMAIN}.
+${API_OCTET} IN  PTR     api.${CLUSTER_NAME}.${CLUSTER_DOMAIN}.
+${DNS_OCTET} IN  PTR     ns1.${CLUSTER_NAME}.${CLUSTER_DOMAIN}.

@@ -1,0 +1,17 @@
+$ORIGIN ${CLUSTER_NAME}.${CLUSTER_DOMAIN}.
+$TTL 300                                   ; 5 minutes
+@       3600 IN SOA dns1.${CLUSTER_DOMAIN}. hostmaster.${CLUSTER_DOMAIN}. (
+                                2019010101 ; serial
+                                21600      ; refresh (6 hours)
+                                3600       ; retry (1 hour)
+                                604800     ; expire (1 week)
+                                86400      ; minimum TTL (1 hour)
+                                )
+;
+api                                      A ${API_VIP}
+ns1                                      A ${DNS_VIP}
+$ORIGIN apps.${CLUSTER_NAME}.${CLUSTER_DOMAIN}.
+*                                        A ${INGRESS_VIP}
+$ORIGIN ${CLUSTER_NAME}.${CLUSTER_DOMAIN}.
+provisioner                                       A ${BM_GW_IP}
+

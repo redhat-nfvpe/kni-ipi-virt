@@ -1,0 +1,14 @@
+.:53 {
+    log
+    errors
+    file /etc/coredns/db.reverse    1.0.10.in-addr.arpa
+    forward . ${EXT_DNS_IP}  
+}
+
+${CLUSTER_DOMAIN}:53 {
+    log
+    errors
+    file /etc/coredns/db.zone
+    debug
+}
+
