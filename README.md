@@ -19,18 +19,22 @@ These helper scripts provide a virtualized infrastructure for use with OpenShift
 2. Provisioning host machine must be RHEL 8 or CentOS 8
 3. If RHEL 8, an active subscription is required
 4. A non-root user must be available to execute the scripts and the Ansible playbook.  You could add one like so:
-    ```sudo useradd kni
+    ```
+    sudo useradd kni
     echo "kni ALL=(root) NOPASSWD:ALL" | sudo tee -a /etc/sudoers.d/kni
     sudo chmod 0440 /etc/sudoers.d/kni
-    sudo su - kni -c "ssh-keygen -t rsa -f /home/kni/.ssh/id_rsa -N ''"```
+    sudo su - kni -c "ssh-keygen -t rsa -f /home/kni/.ssh/id_rsa -N ''"
+    ```
 5. `sudo dnf install -y make git`
 6. Copy your OpenShift pull secret to your non-root user's home directory (i.e. `/home/kni`) and call it `pull-secret.txt` (this location is ultimately configurable, however -- see below)
 
 ## Bundled Usage
 
 1. Clone the repo to your provisioning host machine and go to the directory:
-    ```git clone https://github.com/redhat-nfvpe/kni-ipi-virt.git
-    cd kni-ipi-virt```
+    ```
+    git clone https://github.com/redhat-nfvpe/kni-ipi-virt.git
+    cd kni-ipi-virt
+    ```
 2. Set your environment variables in `common.sh`.  These values and their purpose are described in the file.
 3. `make all`
 4. To remove the VMs, DNS and DHCP containers, use `make clean`
@@ -38,8 +42,10 @@ These helper scripts provide a virtualized infrastructure for use with OpenShift
 ## Isolated Usage
 
 1. Clone the repo to your provisioning host machine and go to the directory:
-    ```git clone https://github.com/redhat-nfvpe/kni-ipi-virt.git
-    cd kni-ipi-virt```
+    ```
+    git clone https://github.com/redhat-nfvpe/kni-ipi-virt.git
+    cd kni-ipi-virt
+    ```
 2. Set your environment variables in `common.sh`.  These values and their purpose are described in the file.
 3. Execute `prep_host.sh`, which requires the following variables to be set in `common.sh`:
 
