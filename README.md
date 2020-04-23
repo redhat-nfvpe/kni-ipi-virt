@@ -145,7 +145,7 @@ Destroy the VMs and their vBMCs:
    sudo pip3 install python-ironicclient
    sudo pip3 install python-ironic-inspector-client
    mkdir -p ~/.config/openstack/
-   tee "~/.config/openstack/clouds.yaml" > /dev/null << EOF
+   tee "$HOME/.config/openstack/clouds.yaml" > /dev/null << EOF
    clouds:
      metal3-bootstrap:
        auth_type: none
