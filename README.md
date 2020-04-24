@@ -174,7 +174,8 @@ Destroy the VMs and their vBMCs:
 
    ```
    openstack baremetal node abort <node UUID>
-   openstack baremetal node undeploy <node UUID>
+   openstack baremetal node maintenance set <node UUID>
+   openstack baremetal node power off <node UUID>
    openstack baremetal node manage <node UUID>
    ```
 
