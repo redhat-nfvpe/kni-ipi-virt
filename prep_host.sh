@@ -127,8 +127,8 @@ fi
 
 printf "\nTweaking nftables ICMP-admin-reject rules...\n\n"
 
-FILTER_INPUT_REJECT="$(sudo nft list chain inet firewalld filter_INPUT -a | grep "reject with icmpx type admin-prohibited" | cut -d '#' -f 2 | cut -d ' ' -f 3)"
-FILTER_FORWARD_REJECT="$(sudo nft list chain inet firewalld filter_FORWARD -a | grep "reject with icmpx type admin-prohibited" | cut -d '#' -f 2 | cut -d ' ' -f 3)"
+FILTER_INPUT_REJECT="$(sudo nft -a list chain inet firewalld filter_INPUT | grep "reject with icmpx type admin-prohibited" | cut -d '#' -f 2 | cut -d ' ' -f 3)"
+FILTER_FORWARD_REJECT="$(sudo nft -a list chain inet firewalld filter_FORWARD | grep "reject with icmpx type admin-prohibited" | cut -d '#' -f 2 | cut -d ' ' -f 3)"
 
 if [[ -n "$FILTER_INPUT_REJECT" ]]; then
     sudo nft delete rule inet firewalld filter_INPUT handle "$FILTER_INPUT_REJECT" > /dev/null
