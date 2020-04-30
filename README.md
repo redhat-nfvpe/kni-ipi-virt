@@ -138,7 +138,7 @@ Destroy the VMs and their vBMCs:
 
    ...try stopping/removing all containers and killing all remaining `slirp4nets` processes, and then try to start the container again.  Sometimes `podman` fails to clean up the `slirp4netns` forwarding processes when it stops/removes the DNS container. 
 
-2. Sometimes the Ironic Python Agent used by the underlying [Metal3](https://github.com/metal3-io) components (which are themselves part of the IPI installation process) get stuck while cleaning the VMs' disks.  Using a `vncviewer` such as TigerVNC, you can view the console of the VM and see if the agent's heartbeart is looping continuously (for more than 10 minutes or so).  If so, a simple option is to just try the deployment again, but you of course run the chance of hitting a cleaning issue again.  A better option is to use the Openstack CLI tool to talk with Ironic and attempt cleaning the problematic nodes manually.  The tool can be installed like so:
+2. Sometimes the Ironic Python Agent used by the underlying [Metal3](https://github.com/metal3-io) components (which are themselves part of the IPI installation process) gets stuck while cleaning the VMs' disks.  Using a `vncviewer` such as TigerVNC, you can view the console of the VM and see if the agent's heartbeart is looping continuously (for more than 10 minutes or so).  If so, a simple option is to just try the deployment again, but you of course run the chance of hitting a cleaning issue again.  A better option is to use the Openstack CLI tool to talk with Ironic and attempt cleaning the problematic nodes manually.  The tool can be installed like so:
    
    ```
    sudo pip3 install python-openstackclient
@@ -158,7 +158,7 @@ Destroy the VMs and their vBMCs:
    EOF
    ```
 
-   If, if it's a master node that is stuck:
+  If it's a master node that is stuck:
 
    `export OS_CLOUD=metal3-bootstrap`
 
