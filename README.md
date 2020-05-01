@@ -177,6 +177,7 @@ Destroy the VMs and their vBMCs:
    openstack baremetal node maintenance set <node UUID>
    openstack baremetal node power off <node UUID>
    openstack baremetal node manage <node UUID>
+   openstack baremetal node maintenance unset <node UUID>
    ```
 
    Now the node should be in a state where you can execute manual cleaning, as described [here](https://docs.openstack.org/ironic/queens/admin/cleaning.html#starting-manual-cleaning-via-openstack-baremetal-cli).
