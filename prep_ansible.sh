@@ -10,8 +10,6 @@ if [[ ! -d baremetal-deploy ]]; then
     printf "\nCloning openshift-kni/baremetal-deploy Ansible tool...\n\n"
 
     git clone https://github.com/openshift-kni/baremetal-deploy.git
-    sed -i 's/provisioningNetworkInterface: {{ prov_nic }}/provisioningNetworkInterface: enp1s0/' baremetal-deploy/ansible-ipi-install/roles/installer/templates/install-config.j2
-    sed -i 's/provisioning_interface: {{ prov_nic }}/provisioning_interface: enp1s0/' baremetal-deploy/ansible-ipi-install/roles/installer/templates/metal3-config.j2
     sed -i "s/remote_user=kni/remote_user=$KNI_USERNAME/" baremetal-deploy/ansible-ipi-install/ansible.cfg
 fi
 
@@ -30,6 +28,7 @@ cache_enabled=True\n\
 dir={{ ansible_user_dir }}/clusterconfigs\n\
 prov_ip=172.22.0.3\n\
 prov_nic=$PROV_INTF\n\
+masters_prov_nic=enp1s0\n\
 pub_nic=$BM_INTF\n\
 version=\"$OCP_VERSION\"\n\
 \n\
