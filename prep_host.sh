@@ -96,16 +96,24 @@ sudo nmcli con up "$PROV_BRIDGE"
 # Add firewalld rules for DNS
 #
 
-printf "\nAdding firewalld rules for DNS/DHCP traffic...\n\n"
+printf "\nAdding firewalld rules for cluster...\n\n"
 
 sudo systemctl start firewalld
 sudo firewall-cmd --add-interface="$BM_BRIDGE" --zone=public --permanent
 sudo firewall-cmd --add-interface="$PROV_BRIDGE" --zone=public --permanent
-sudo firewall-cmd --add-port=53/tcp --zone=public --permanent
-sudo firewall-cmd --add-port=53/udp --zone=public --permanent
-sudo firewall-cmd --add-port=67/udp --zone=public --permanent
-sudo firewall-cmd --add-port=69/udp --zone=public --permanent
-sudo firewall-cmd --add-port=6443/tcp --zone=public --permanent
+sudo firewall-cmd --zone=public --permanent --add-service=ssh
+sudo firewall-cmd --zone=public --permanent --add-service=http
+sudo firewall-cmd --zone=public --permanent --add-port=53/tcp 
+sudo firewall-cmd --zone=public --permanent --add-port=53/udp 
+sudo firewall-cmd --zone=public --permanent --add-port=67/udp 
+sudo firewall-cmd --zone=public --permanent --add-port=69/udp 
+sudo firewall-cmd --zone=public --permanent --add-port=6443/tcp
+sudo firewall-cmd --zone=public --permanent --add-port=8080/tcp 
+sudo firewall-cmd --zone=public --permanent --add-port=5000/tcp
+sudo firewall-cmd --zone=public --add-masquerade --permanent
+sudo firewall-cmd --direct --permanent --add-rule ipv4 nat POSTROUTING 0 -o "$EXT_INTF" -j MASQUERADE
+sudo firewall-cmd --direct --permanent --add-rule ipv4 filter FORWARD 0 -i "$BM_BRIDGE" -o "$EXT_INTF" -j ACCEPT 
+sudo firewall-cmd --direct --permanent --add-rule ipv4 filter FORWARD 0 -i "$EXT_INTF" -o "$BM_BRIDGE" -m state --state RELATED,ESTABLISHED -j ACCEPT
 sudo systemctl stop firewalld
 sudo systemctl start firewalld
 
