@@ -10,6 +10,7 @@ export PROV_INTF="eno2" # NIC used for provisioning network
 ### BEGIN variables that can optionally be changed ###
 export CLUSTER_NAME="test"
 export CLUSTER_DOMAIN="ipi.testing"
+export CREATE_LOCAL_REG="true" # Whether to create and use an "offline" container image registry
 export DHCP_BM_MACS="" # Override auto-generated dnsmasq hostfile MACs for the baremetal network.  List MACs like so: <master0>,..,<masterN>,<worker0>,..,<workerN>
 export KNI_USERNAME="$(whoami)" # Non-root user
 export LIBVIRT_STORAGE_POOL="default" # Storage pool used for VM disk backends

@@ -56,6 +56,7 @@ done
 HOSTS_FILE="$HOSTS_FILE\n[provisioner]\n\
 provisioner.$CLUSTER_NAME.$CLUSTER_DOMAIN ansible_connection=local\n"
 
+if [[ "$CREATE_LOCAL_REG" == "true" ]]; then
 HOSTS_FILE="$HOSTS_FILE\n[registry_host]\n\
 provisioner.$CLUSTER_NAME.$CLUSTER_DOMAIN ansible_connection=local\n"
 
@@ -66,6 +67,7 @@ cert_locality=Westford\n\
 cert_organization=Red Hat\n\
 cert_organizational_unit=CTO Networking\n\
 registry_dir=$PROJECT_DIR/registry\n"
+fi
 
 echo -e "$HOSTS_FILE" > baremetal-deploy/ansible-ipi-install/inventory/hosts
 
