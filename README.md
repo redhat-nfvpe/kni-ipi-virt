@@ -30,7 +30,7 @@ These helper scripts provide a virtualized infrastructure for use with OpenShift
 
 ## Bundled Usage
 
-1. Clone the repo to your provisioning host machine and go to the directory:
+1. As your non-root user (such as `kni`), clone the repo to your provisioning host machine and go to the directory:
     ```
     git clone https://github.com/redhat-nfvpe/kni-ipi-virt.git
     cd kni-ipi-virt
