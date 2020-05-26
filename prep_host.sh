@@ -69,6 +69,7 @@ Description = vbmc service
 EOF
 
 sudo systemctl daemon-reload
+sudo systemctl enable vbmcd
 sudo systemctl start vbmcd
 
 #
