@@ -84,8 +84,8 @@ sudo nmcli con delete "bridge-slave-$PROV_INTF"
 sudo nmcli con delete "bridge-slave-$BM_INTF"
 sudo nmcli con delete "$PROV_BRIDGE"
 sudo nmcli con delete "$BM_BRIDGE"
-sudo nmcli connection add ifname "$PROV_BRIDGE" type bridge con-name "$PROV_BRIDGE" ip4 172.22.0.1/24
-sudo nmcli connection add ifname "$BM_BRIDGE" type bridge con-name "$BM_BRIDGE" ip4 "$BM_GW_IP"/24
+sudo nmcli connection add ifname "$PROV_BRIDGE" type bridge con-name "$PROV_BRIDGE" stp no ip4 172.22.0.1/24
+sudo nmcli connection add ifname "$BM_BRIDGE" type bridge con-name "$BM_BRIDGE" stp no ip4 "$BM_GW_IP"/24
 sudo nmcli con add type bridge-slave ifname "$PROV_INTF" master "$PROV_BRIDGE"
 sudo nmcli con add type bridge-slave ifname "$BM_INTF" master "$BM_BRIDGE"
 sudo nmcli con down "$BM_BRIDGE"
