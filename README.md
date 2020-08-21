@@ -16,8 +16,8 @@ These helper scripts provide a virtualized infrastructure for use with OpenShift
    - External/SSH network
    - Provisioning network
    - Baremetal network
-2. Provisioning host machine must be RHEL 8 or CentOS 8
-3. If RHEL 8, an active subscription is required
+2. Provisioning host machine must be RHEL 8.1 or CentOS 8.1
+3. If RHEL 8.1, an active subscription is required
 4. A non-root user must be available to execute the scripts and the Ansible playbook.  You could add one like so:
     ```
     sudo useradd kni
