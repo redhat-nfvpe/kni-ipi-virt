@@ -12,21 +12,19 @@ These helper scripts provide a virtualized infrastructure for use with OpenShift
 
 ## Prerequisites
 
-1. Provisioning host machine must have 3 NICs on separate VLANs: 
-   - External/SSH network
-   - Provisioning network
-   - Baremetal network
-2. Provisioning host machine must be RHEL 8.1 or CentOS 8.1
-3. If RHEL 8.1, an active subscription is required
-4. A non-root user must be available to execute the scripts and the Ansible playbook.  You could add one like so:
+1. Provisioning host machine must have an externally-facing NIC on a separate VLAN if you wish the cluster to have Internet connectivity
+2. Provisioning host machine must have externally-facing NICs on a separate VLAN for the provisioning and baremetal networks if you wish for the VMs or DHCP/DNS services to be reachable by nodes outside the host
+3. Provisioning host machine must be RHEL 8.1 or CentOS 8.1
+4. If RHEL 8.1, an active subscription is required
+5. A non-root user must be available to execute the scripts and the Ansible playbook.  You could add one like so:
     ```
     sudo useradd kni
     echo "kni ALL=(root) NOPASSWD:ALL" | sudo tee -a /etc/sudoers.d/kni
     sudo chmod 0440 /etc/sudoers.d/kni
     sudo su - kni -c "ssh-keygen -t rsa -f /home/kni/.ssh/id_rsa -N ''"
     ```
-5. `sudo dnf install -y make git`
-6. Copy your OpenShift pull secret to your non-root user's home directory (i.e. `/home/kni`) and call it `pull-secret.txt` (this location is ultimately configurable, however -- see below)
+6. `sudo dnf install -y make git`
+7. Copy your OpenShift pull secret to your non-root user's home directory (i.e. `/home/kni`) and call it `pull-secret.txt` (this location is ultimately configurable, however -- see below)
 
 ## Bundled Usage
 
@@ -51,12 +49,15 @@ These helper scripts provide a virtualized infrastructure for use with OpenShift
 
 - `BM_BRIDGE`
 - `BM_GW_IP`
-- `BM_INTF`
 - `DNS_IP`
 - `PROV_BRIDGE`
+
+4. If you wish external nodes to be able to reach the services/VMs listed below, you will also need:
+
+- `BM_INTF`
 - `PROV_INTF`
 
-4. Assuming steps above have been completed, the individual DNS, DCHP and VM bash scripts can be utilized alone to make use of their atomic functionality.
+5. Assuming steps above have been completed, the individual DNS, DCHP and VM bash scripts can be utilized alone to make use of their atomic functionality.
 
 ### DNS
 
@@ -64,6 +65,7 @@ Create a CoreDNS container to provide DNS on your baremetal network.  The follow
 
 - `API_VIP`
 - `BM_GW_IP`
+- `BM_INTF` (if you want external nodes to be able reach this service)
 - `CLUSTER_DOMAIN`
 - `CLUSTER_NAME`
 - `DNS_IP`
@@ -85,7 +87,7 @@ Stop and remove the CoreDNS container:
 Create a Dnsmasq container to provide DHCP on your baremetal network.  The following variables are required to be set in `common.sh`:
 
 - `BM_GW_IP`
-- `BM_INTF`
+- `BM_INTF` (if you want external nodes to be able reach this service)
 - `CLUSTER_DOMAIN`
 - `CLUSTER_NAME`
 - `DHCP_BM_MACS`

@@ -78,16 +78,24 @@ sudo systemctl start vbmcd
 
 printf "\nAdding stand-alone provisioning and baremetal bridges...\n\n"
 
-sudo nmcli con delete "$PROV_INTF"
-sudo nmcli con delete "$BM_INTF"
-sudo nmcli con delete "bridge-slave-$PROV_INTF"
-sudo nmcli con delete "bridge-slave-$BM_INTF"
+if [[ -n "$PROV_INTF" ]]; then
+  sudo nmcli con delete "$PROV_INTF"
+  sudo nmcli con delete "bridge-slave-$PROV_INTF"
+fi
+if [[ -n "$BM_INTF" ]]; then
+  sudo nmcli con delete "$BM_INTF"
+  sudo nmcli con delete "bridge-slave-$BM_INTF"
+fi
 sudo nmcli con delete "$PROV_BRIDGE"
 sudo nmcli con delete "$BM_BRIDGE"
 sudo nmcli connection add ifname "$PROV_BRIDGE" type bridge con-name "$PROV_BRIDGE" stp no ip4 172.22.0.1/24
 sudo nmcli connection add ifname "$BM_BRIDGE" type bridge con-name "$BM_BRIDGE" stp no ip4 "$BM_GW_IP"/24
-sudo nmcli con add type bridge-slave ifname "$PROV_INTF" master "$PROV_BRIDGE"
-sudo nmcli con add type bridge-slave ifname "$BM_INTF" master "$BM_BRIDGE"
+if [[ -n "$PROV_INTF" ]]; then
+  sudo nmcli con add type bridge-slave ifname "$PROV_INTF" master "$PROV_BRIDGE"
+fi
+if [[ -n "$BM_INTF" ]]; then
+  sudo nmcli con add type bridge-slave ifname "$BM_INTF" master "$BM_BRIDGE"
+fi
 sudo nmcli con down "$BM_BRIDGE"
 sudo nmcli con up "$BM_BRIDGE"
 sudo nmcli con down "$PROV_BRIDGE"

@@ -1,13 +1,12 @@
 #!/bin/bash
 
 ### BEGIN variables that MUST be changed ###
-export BM_INTF="ens1f0" # NIC used for baremetal network
 export EXT_DNS_IP="10.11.5.19" # DNS server to forward non-cluster-resolvable DNS requests
 export EXT_INTF="eno1" # External interface used in NAT / masquerade / DNS fowarding
-export PROV_INTF="eno2" # NIC used for provisioning network
 ### END variables that MUST be changed ###
 
 ### BEGIN variables that can optionally be changed ###
+export BM_INTF="" # NIC used for baremetal network, if external nodes (outside the prov host) will be later added
 export CLUSTER_NAME="test"
 export CLUSTER_DOMAIN="ipi.testing"
 export CREATE_LOCAL_REG="true" # Whether to create and use an "offline" container image registry
@@ -21,6 +20,7 @@ export NUM_WORKERS=2 # Number of workers to deploy in the cluster
 export OCP_SOURCE="ga" # Whether to use GA or development builds of OpenShift (use "ga" or "dev")
 export OCP_VERSION="latest-4.3" # Which OpenShift version to install (see "version" variable discussed here: https://openshift-kni.github.io/baremetal-deploy/latest/Ansible%20Playbook%20Install.html#ansible-playbook-modifying-the-inventoryhosts-file)
 export PROJECT_DIR="/home/$KNI_USERNAME/kni-ipi-virt" # Where does this repo live locally?
+export PROV_INTF="eno2" # NIC used for provisioning network,, if external nodes (outside the prov host) will be later added
 export PULL_SECRET_PATH="/home/$KNI_USERNAME/pull-secret.txt" # Path to your OpenShift pull secret
 export WORKER_CPUS=4 # Number of vCPUs to allocate to worker VMs
 export WORKER_MEM=16384 # Amount of memory to allocate to worker VMs

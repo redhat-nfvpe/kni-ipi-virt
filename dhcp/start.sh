@@ -14,7 +14,7 @@ mkdir -p "$OUTPUT_DIR"/bm/var/run
  
 envsubst < "$PROJECT_DIR/dhcp/dnsmasq.conf.tmpl" > "${OUTPUT_DIR}"/bm/etc/dnsmasq.d/dnsmasq.conf
 
-BM_MAC="$(ip l show "$BM_INTF" | grep "link/ether" | awk {'print $2'})"
+BM_MAC="$(ip l show "$BM_BRIDGE" | grep "link/ether" | awk {'print $2'})"
 DNSMASQ_HOSTS="$BM_MAC,$BM_GW_IP,provisioner.$CLUSTER_NAME.$CLUSTER_DOMAIN"
 
 if [[ -z "$DHCP_BM_MACS" ]]; then

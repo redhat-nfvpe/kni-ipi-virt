@@ -71,4 +71,10 @@ fi
 
 echo -e "$HOSTS_FILE" > baremetal-deploy/ansible-ipi-install/inventory/hosts
 
-ansible-playbook -i baremetal-deploy/ansible-ipi-install/inventory/hosts baremetal-deploy/ansible-ipi-install/playbook.yml
+SKIP_TAGS=""
+
+if [[ -z "$PROV_INTF" ]] || [[ -z "$BM_INTF" ]]; then
+  SKIP_TAGS="--skip-tags=network"
+fi
+
+ansible-playbook -i baremetal-deploy/ansible-ipi-install/inventory/hosts baremetal-deploy/ansible-ipi-install/playbook.yml "$SKIP_TAGS"
