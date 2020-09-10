@@ -1,7 +1,7 @@
 .:53 {
     log
     errors
-    file /etc/coredns/db.reverse    1.0.10.in-addr.arpa
+    file /etc/coredns/db.reverse    ${BM_CIDR_OCTET3}.${BM_CIDR_OCTET2}.${BM_CIDR_OCTET1}.in-addr.arpa
     forward . ${EXT_DNS_IP}  
 }
 

@@ -11,19 +11,21 @@ CONTAINER_NAME="ipi-dnsmasq-bm"
 
 mkdir -p "$OUTPUT_DIR"/bm/etc/dnsmasq.d
 mkdir -p "$OUTPUT_DIR"/bm/var/run
+
+export BM_CIDR_PREFIX=$(echo "$BM_CIDR" | cut -d '.' -f 1-3)
  
-envsubst < "$PROJECT_DIR/dhcp/dnsmasq.conf.tmpl" > "${OUTPUT_DIR}"/bm/etc/dnsmasq.d/dnsmasq.conf
+envsubst '${BM_CIDR} ${BM_CIDR_PREFIX} ${BM_GW_IP} ${CLUSTER_DOMAIN} ${CLUSTER_NAME} ${DNS_IP}' < "$PROJECT_DIR/dhcp/dnsmasq.conf.tmpl" > "${OUTPUT_DIR}"/bm/etc/dnsmasq.d/dnsmasq.conf
 
 BM_MAC="$(ip l show "$BM_BRIDGE" | grep "link/ether" | awk {'print $2'})"
 DNSMASQ_HOSTS="$BM_MAC,$BM_GW_IP,provisioner.$CLUSTER_NAME.$CLUSTER_DOMAIN"
 
 if [[ -z "$DHCP_BM_MACS" ]]; then
     for i in $(seq 0 $((NUM_MASTERS - 1))); do
-        DNSMASQ_HOSTS="$DNSMASQ_HOSTS\n$MASTER_BM_MAC_PREFIX$i,10.0.1.12$i,$CLUSTER_NAME-master-$i.$CLUSTER_NAME.$CLUSTER_DOMAIN"
+        DNSMASQ_HOSTS="$DNSMASQ_HOSTS\n$MASTER_BM_MAC_PREFIX$i,$BM_CIDR_PREFIX.12$i,$CLUSTER_NAME-master-$i.$CLUSTER_NAME.$CLUSTER_DOMAIN"
     done
 
     for i in $(seq 0 $((NUM_WORKERS - 1))); do
-        DNSMASQ_HOSTS="$DNSMASQ_HOSTS\n$WORKER_BM_MAC_PREFIX$i,10.0.1.13$i,$CLUSTER_NAME-worker-$i.$CLUSTER_NAME.$CLUSTER_DOMAIN"
+        DNSMASQ_HOSTS="$DNSMASQ_HOSTS\n$WORKER_BM_MAC_PREFIX$i,$BM_CIDR_PREFIX.13$i,$CLUSTER_NAME-worker-$i.$CLUSTER_NAME.$CLUSTER_DOMAIN"
     done
 else
     IFS=', ' read -r -a BM_MACS <<< "$DHCP_BM_MACS"
@@ -34,11 +36,11 @@ else
     fi
 
     for i in $(seq 0 $((NUM_MASTERS - 1))); do
-        DNSMASQ_HOSTS="$DNSMASQ_HOSTS\n${BM_MACS[$i]},10.0.1.12$i,$CLUSTER_NAME-master-$i.$CLUSTER_NAME.$CLUSTER_DOMAIN"
+        DNSMASQ_HOSTS="$DNSMASQ_HOSTS\n${BM_MACS[$i]},$BM_CIDR_PREFIX.12$i,$CLUSTER_NAME-master-$i.$CLUSTER_NAME.$CLUSTER_DOMAIN"
     done
 
     for i in $(seq 0 $((NUM_WORKERS - 1))); do
-        DNSMASQ_HOSTS="$DNSMASQ_HOSTS\n${BM_MACS[$((i + NUM_MASTERS))]},10.0.1.13$i,$CLUSTER_NAME-worker-$i.$CLUSTER_NAME.$CLUSTER_DOMAIN"
+        DNSMASQ_HOSTS="$DNSMASQ_HOSTS\n${BM_MACS[$((i + NUM_MASTERS))]},$BM_CIDR_PREFIX.13$i,$CLUSTER_NAME-worker-$i.$CLUSTER_NAME.$CLUSTER_DOMAIN"
     done
 fi
 

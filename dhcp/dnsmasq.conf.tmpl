@@ -7,9 +7,9 @@ bind-interfaces
 strict-order
 except-interface=lo
 
-domain=${CLUSTER_NAME}.${CLUSTER_DOMAIN},10.0.1.0/24
+domain=${CLUSTER_NAME}.${CLUSTER_DOMAIN},${BM_CIDR}
 
-dhcp-range=10.0.1.10,10.0.1.250,30m
+dhcp-range=${BM_CIDR_PREFIX}.10,${BM_CIDR_PREFIX}.250,30m
 #default gateway
 dhcp-option=3,${BM_GW_IP}
 #dns server
