@@ -25,7 +25,7 @@ fi
 HOSTS_FILE="[all:vars]\n\
 build=\"$OCP_SOURCE\"\n\
 cache_enabled=True\n\
-dir={{ ansible_user_dir }}/clusterconfigs\n\
+dir={{ ansible_user_dir }}/$CLUSTER_CONFIGS_DIR\n\
 prov_ip=172.22.0.3\n\
 prov_nic=$PROV_INTF\n\
 masters_prov_nic=enp1s0\n\

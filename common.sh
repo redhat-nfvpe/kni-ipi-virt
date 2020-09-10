@@ -9,6 +9,7 @@ export EXT_INTF="eno1" # External interface used in NAT / masquerade / DNS fowar
 export BM_INTF="" # NIC used for baremetal network, if external nodes (outside the prov host) will be later added
 export CLUSTER_NAME="test"
 export CLUSTER_DOMAIN="ipi.testing"
+export CLUSTER_CONFIGS_DIR="clusterconfigs" # Where in the KNI_USERNAME's home dir to place cluster configs
 export CREATE_LOCAL_REG="true" # Whether to create and use an "offline" container image registry
 export DHCP_BM_MACS="" # Override auto-generated dnsmasq hostfile MACs for the baremetal network.  List MACs like so: <master0>,..,<masterN>,<worker0>,..,<workerN>
 export KNI_USERNAME="$(whoami)" # Non-root user
