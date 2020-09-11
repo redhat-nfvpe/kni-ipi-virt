@@ -15,6 +15,7 @@ export KNI_USERNAME="$(whoami)" # Non-root user
 export CLUSTER_CONFIGS_DIR="/home/$KNI_USERNAME/clusterconfigs" # Where to place cluster configs for deployment
 export LIBVIRT_STORAGE_POOL="default" # Storage pool used for VM disk backends
 export MASTER_CPUS=4 # Number of vCPUs to allocate to master VMs
+export MASTER_DISK=60 # Root disk size (GB) for master VMs
 export MASTER_MEM=16384 # Amount of memory to allocate to master VMs
 export NUM_MASTERS=1 # Number of masters to deploy in the cluster
 export NUM_WORKERS=2 # Number of workers to deploy in the cluster
@@ -24,6 +25,7 @@ export PROJECT_DIR="/home/$KNI_USERNAME/kni-ipi-virt" # Where does this repo liv
 export PROV_INTF="eno2" # NIC used for provisioning network,, if external nodes (outside the prov host) will be later added
 export PULL_SECRET_PATH="/home/$KNI_USERNAME/pull-secret.txt" # Path to your OpenShift pull secret
 export WORKER_CPUS=4 # Number of vCPUs to allocate to worker VMs
+export WORKER_DISK=60 # Root disk size (GB) for worker VMs
 export WORKER_MEM=16384 # Amount of memory to allocate to worker VMs
 ### END variables that can optionally be changed ###
 
