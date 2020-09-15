@@ -17,7 +17,7 @@ WORKER_VBMC_PORT_PREFIX=625
 for i in $(seq 0 $((NUM_MASTERS - 1))); do
     name="$CLUSTER_NAME-master-$i"
 
-    sudo virt-install --ram $MASTER_MEM --vcpus $MASTER_CPUS --os-variant rhel8.0 --cpu host-passthrough --disk size=$MASTER_DISK,pool=$LIBVIRT_STORAGE_POOL,device=disk,bus=virtio,format=qcow2 --import --noautoconsole --vnc --network=bridge:provisioning,mac="$MASTER_PROV_MAC_PREFIX$i" --network=bridge:baremetal,mac="$MASTER_BM_MAC_PREFIX$i" --name "$name" --os-type=linux --events on_reboot=restart --boot hd,network
+    sudo virt-install --ram $MASTER_MEM --vcpus $MASTER_CPUS --os-variant rhel8.0 --cpu host-passthrough --disk size=$MASTER_DISK,pool=$LIBVIRT_STORAGE_POOL,device=disk,bus=virtio,format=qcow2 --import --noautoconsole --vnc --network=bridge:"$PROV_BRIDGE",mac="$MASTER_PROV_MAC_PREFIX$i" --network=bridge:"$BM_BRIDGE",mac="$MASTER_BM_MAC_PREFIX$i" --name "$name" --os-type=linux --events on_reboot=restart --boot hd,network
 
     vm_ready=false
     for k in {1..10}; do 
@@ -61,7 +61,7 @@ done
 for i in $(seq 0 $((NUM_WORKERS - 1))); do
     name="$CLUSTER_NAME-worker-$i"
 
-    sudo virt-install --ram $WORKER_MEM --vcpus $WORKER_CPUS --os-variant rhel8.0 --cpu host-passthrough --disk size=$WORKER_DISK,pool=$LIBVIRT_STORAGE_POOL,device=disk,bus=virtio,format=qcow2 --import --noautoconsole --vnc --network=bridge:provisioning,mac="$WORKER_PROV_MAC_PREFIX$i" --network=bridge:baremetal,mac="$WORKER_BM_MAC_PREFIX$i" --name "$name" --os-type=linux --events on_reboot=restart --boot hd,network
+    sudo virt-install --ram $WORKER_MEM --vcpus $WORKER_CPUS --os-variant rhel8.0 --cpu host-passthrough --disk size=$WORKER_DISK,pool=$LIBVIRT_STORAGE_POOL,device=disk,bus=virtio,format=qcow2 --import --noautoconsole --vnc --network=bridge:"$PROV_BRIDGE",mac="$WORKER_PROV_MAC_PREFIX$i" --network=bridge:"$BM_BRIDGE",mac="$WORKER_BM_MAC_PREFIX$i" --name "$name" --os-type=linux --events on_reboot=restart --boot hd,network
 
     vm_ready=false
     for k in {1..10}; do 
