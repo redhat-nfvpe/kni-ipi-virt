@@ -14,7 +14,7 @@ mkdir -p "$OUTPUT_DIR"/bm/var/run
 
 export BM_CIDR_PREFIX=$(echo "$BM_CIDR" | cut -d '.' -f 1-3)
  
-envsubst '${BM_CIDR} ${BM_CIDR_PREFIX} ${BM_GW_IP} ${CLUSTER_DOMAIN} ${CLUSTER_NAME} ${DNS_IP}' < "$PROJECT_DIR/dhcp/dnsmasq.conf.tmpl" > "${OUTPUT_DIR}"/bm/etc/dnsmasq.d/dnsmasq.conf
+envsubst '${BM_BRIDGE} ${BM_CIDR} ${BM_CIDR_PREFIX} ${BM_GW_IP} ${CLUSTER_DOMAIN} ${CLUSTER_NAME} ${DNS_IP}' < "$PROJECT_DIR/dhcp/dnsmasq.conf.tmpl" > "${OUTPUT_DIR}"/bm/etc/dnsmasq.d/dnsmasq.conf
 
 BM_MAC="$(ip l show "$BM_BRIDGE" | grep "link/ether" | awk {'print $2'})"
 DNSMASQ_HOSTS="$BM_MAC,$BM_GW_IP,provisioner.$CLUSTER_NAME.$CLUSTER_DOMAIN"
