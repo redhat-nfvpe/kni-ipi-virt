@@ -75,14 +75,8 @@ fi
 
 echo -e "$HOSTS_FILE" > baremetal-deploy/ansible-ipi-install/inventory/hosts
 
-# HACK: Workaround for issue https://github.com/openshift-kni/baremetal-deploy/issues/508
-# in the baremetal Ansible installer
-sed -i 's#pullsecret_file: "{{ ansible_user_dir }}/clusterconfigs/pull-secret.txt"#pullsecret_file: "{{ dir }}/pull-secret.txt"#g' baremetal-deploy/ansible-ipi-install/roles/installer/vars/main.yml
-
-SKIP_TAGS=""
-
 if [[ -z "$PROV_INTF" ]] || [[ -z "$BM_INTF" ]]; then
-  SKIP_TAGS="--skip-tags=network"
+  ansible-playbook -i baremetal-deploy/ansible-ipi-install/inventory/hosts baremetal-deploy/ansible-ipi-install/playbook.yml --skip-tags=network
+else
+  ansible-playbook -i baremetal-deploy/ansible-ipi-install/inventory/hosts baremetal-deploy/ansible-ipi-install/playbook.yml
 fi
-
-ansible-playbook -i baremetal-deploy/ansible-ipi-install/inventory/hosts baremetal-deploy/ansible-ipi-install/playbook.yml "$SKIP_TAGS"
