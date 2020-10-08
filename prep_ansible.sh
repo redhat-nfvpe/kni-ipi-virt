@@ -33,6 +33,7 @@ prov_nic=$PROV_INTF\n\
 masters_prov_nic=enp1s0\n\
 pub_nic=$BM_INTF\n\
 version=\"$OCP_VERSION\"\n\
+redfish_inspection=False\n\
 \n\
 domain=\"$CLUSTER_DOMAIN\"\n\
 cluster=\"$CLUSTER_NAME\"\n\
