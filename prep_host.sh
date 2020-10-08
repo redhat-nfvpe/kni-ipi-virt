@@ -26,7 +26,8 @@ fi
 
 printf "\nInstalling prerequisite packages...\n\n"
 
-sudo dnf install -y libvirt python3-pip virt-install ipmitool gcc python3-devel qemu-kvm podman python3-crypto python3-pyghmi
+sudo dnf install -y libvirt python3-pip virt-install ipmitool gcc python3-devel qemu-kvm podman
+sudo dnf install -y python3-crypto python3-pyghmi
 sudo pip3 uninstall pyghmi -y
 sudo pip3 install virtualbmc dnspython netaddr ansible jmespath pyghmi==1.0.22
 sudo pip3 install --upgrade ansible
