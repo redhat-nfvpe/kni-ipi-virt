@@ -164,10 +164,8 @@ fi
 printf "\nSetting up NetworkManager DNS overlay...\n\n"
 
 DNSCONF=/etc/NetworkManager/conf.d/openshift.conf
-DNSCHANGED=""
 if ! [ -f "${DNSCONF}" ]; then
     echo -e "[main]\ndns=dnsmasq" | sudo tee "${DNSCONF}"
-    DNSCHANGED=1
 fi
 
 DNSMASQCONF=/etc/NetworkManager/dnsmasq.d/openshift.conf
@@ -175,9 +173,6 @@ DNSMASQCONF_CONTENT=$(grep "server=/$CLUSTER_DOMAIN/$DNS_IP" ${DNSMASQCONF})
 
 if [ ! -f "${DNSMASQCONF}" ] || [ -z "${DNSMASQCONF_CONTENT}" ]; then
     echo server=/"$CLUSTER_DOMAIN"/"$DNS_IP" | sudo tee "${DNSMASQCONF}"
-    DNSCHANGED=1
 fi
 
-if [ -n "$DNSCHANGED" ]; then
-    sudo systemctl restart NetworkManager
-fi
+sudo systemctl restart NetworkManager
