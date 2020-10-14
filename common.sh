@@ -17,6 +17,7 @@ export LIBVIRT_STORAGE_POOL="default" # Storage pool used for VM disk backends
 export MASTER_CPUS=4 # Number of vCPUs to allocate to master VMs
 export MASTER_DISK=60 # Root disk size (GB) for master VMs
 export MASTER_MEM=16384 # Amount of memory to allocate to master VMs
+export NETWORK_TYPE="OVNKubernetes" # Network type used for OpenShift SDN
 export NUM_MASTERS=1 # Number of masters to deploy in the cluster
 export NUM_WORKERS=2 # Number of workers to deploy in the cluster
 export OCP_SOURCE="ga" # Whether to use GA or development builds of OpenShift (use "ga" or "dev")

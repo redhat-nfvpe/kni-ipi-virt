@@ -37,6 +37,7 @@ redfish_inspection=False\n\
 \n\
 domain=\"$CLUSTER_DOMAIN\"\n\
 cluster=\"$CLUSTER_NAME\"\n\
+network_type=\"$NETWORK_TYPE\"\n\
 extcidrnet=\"$BM_CIDR\"\n\
 apivip=\"$API_VIP\"\n\
 dnsvip=\"$DNS_VIP\"\n\
