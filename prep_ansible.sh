@@ -50,13 +50,13 @@ pullsecret='$(cat "$PULL_SECRET_PATH")'\n"
 HOSTS_FILE="$HOSTS_FILE\n[masters]\n"
 
 for i in $(seq 0 $((NUM_MASTERS - 1))); do
-    HOSTS_FILE="${HOSTS_FILE}master-$i name=master-$i role=master ipmi_user=ADMIN ipmi_password=ADMIN ipmi_address=$BM_GW_IP ipmi_port=624$i provision_mac=52:54:00:82:68:4$i\n"
+    HOSTS_FILE="${HOSTS_FILE}master-$i name=master-$i role=master ipmi_user=ADMIN ipmi_password=ADMIN ipmi_address=$BM_GW_IP ipmi_port=624$i provision_mac=52:54:00:82:68:4$i root_device_hint=deviceName root_device_hint_value=/dev/vda\n"
 done
 
 HOSTS_FILE="$HOSTS_FILE\n[workers]\n"
 
 for i in $(seq 0 $((NUM_WORKERS - 1))); do
-    HOSTS_FILE="${HOSTS_FILE}worker-$i name=worker-$i role=worker ipmi_user=ADMIN ipmi_password=ADMIN ipmi_address=$BM_GW_IP ipmi_port=625$i provision_mac=52:54:00:82:68:5$i\n"
+    HOSTS_FILE="${HOSTS_FILE}worker-$i name=worker-$i role=worker ipmi_user=ADMIN ipmi_password=ADMIN ipmi_address=$BM_GW_IP ipmi_port=625$i provision_mac=52:54:00:82:68:5$i root_device_hint=deviceName root_device_hint_value=/dev/vda\n"
 done
 
 HOSTS_FILE="$HOSTS_FILE\n[provisioner]\n\
