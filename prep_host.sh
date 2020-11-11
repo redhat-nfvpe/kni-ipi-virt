@@ -26,7 +26,7 @@ fi
 
 printf "\nInstalling prerequisite packages...\n\n"
 
-sudo dnf install -y libvirt python3-pip virt-install ipmitool gcc python3-devel qemu-kvm podman
+sudo dnf install -y libvirt python3-pip virt-install ipmitool gcc python3-devel qemu-kvm podman libgcrypt
 sudo dnf install -y python3-crypto python3-pyghmi
 sudo pip3 uninstall pyghmi -y
 sudo pip3 install pkgconfig python-libvirt
